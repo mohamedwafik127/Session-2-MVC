@@ -1,0 +1,13 @@
+using WebApplication1.Data;
+
+
+
+public partial class Program
+{
+    public static void Main(string[] args)
+    {
+        using var context = new GymDBcontext();
+
+    }
+}
+
