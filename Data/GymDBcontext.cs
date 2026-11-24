@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using WebApplication1.Configs;
 using WebApplication1.Models;
 
@@ -12,15 +13,14 @@ namespace WebApplication1.Data
         public DbSet<Trainer> Trainers { get; set; } = null!;
         public DbSet<MemberShip> MemberShips { get; set; } = null!;
 
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            options.UseSqlServer(
+                "Server=.;Database=GYM Management System;Trusted_Connection=True;TrustServerCertificate=True;");
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new MemberShipConfig());
-            modelBuilder.ApplyConfiguration(new MemberConfig());
-            modelBuilder.ApplyConfiguration(new PlanConfig());
-            modelBuilder.ApplyConfiguration(new SessionConfig());
-            modelBuilder.ApplyConfiguration(new TrainerConfig());
+           modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
